@@ -16,8 +16,3 @@
 
 ## [Chapitre 7 : Algorithmique](./_ressources/7.0.ALGO.md)
 
-::: error
-dzadaad
-
-> [!NOTE]  
-> Highlights information that users should take into account, even when skimming.
