@@ -16,3 +16,6 @@
 
 ## [Chapitre 7 : Algorithmique](./_ressources/7.0.ALGO.md)
 
+::: error
+dzadaad
+
