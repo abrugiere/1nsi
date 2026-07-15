@@ -13,5 +13,7 @@ Les opérations généralement disponibles pour une liste chaînée sont :
 - Récupérer l'élément en tête de liste
 
 
-[Page2](./page2.html)
-[Page3](./page3.html)
+[Page1](./page1.html)  
+
+[Page2](./page2.html)  
+
