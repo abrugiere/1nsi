@@ -16,3 +16,7 @@
 
 ## [Chapitre 7 : Algorithmique](7.0.ALGO.md)
 
+
+:::info
+Ceci est une info
+:::
