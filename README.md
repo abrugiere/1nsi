@@ -31,7 +31,7 @@ En python, le type `list` est en réalité ce que l'on appelle en algorithmique 
 
 :::danger
 Nous nous servirons parfois du type `list` de Python dans la suite de ce cours, mais il ne faut pas oublier qu'il n'est pas un «vrai» type représentant une liste chaînée mais plutôt un **tableau**.
-:::
+::: 
 
 :::info
 ### 📝 EXERCICE 1 - Manipulation d'une liste chaînée
