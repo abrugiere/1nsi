@@ -1,3 +1,8 @@
+---
+layout: default
+---
+
+
 # Numérique et Sciences Informatiques Première
 
 ## Implémentation
