@@ -37,6 +37,7 @@ Nous nous servirons parfois du type `list` de Python dans la suite de ce cours, 
 ### 📝 EXERCICE 1 - Manipulation d'une liste chaînée
 :::
 
+
 > [!WARNING]
 > Nous nous servirons parfois du type `list` de Python dans la suite de ce cours, mais il ne faut pas oublier qu'il n'est pas un «vrai» type représentant une liste chaînée mais plutôt un **tableau**.
 
