@@ -1,18 +1,39 @@
 # Numérique et Sciences Informatiques Première
 
-## [Introduction](0.0.INTRO.md)
 
-## [Chapitre 1 : Représentation des données : types et valeurs de base](1.0.BASE.md)
 
-## [Chapitre 2 : Représentation des données : types construits](2.0.CONST.md)
+## Implémentation
 
-## [Chapitre 3 : Traitement de données en tables](3.0.TABL.md)
+- Une liste est caractérisée par un ensemble de cellules.
+- Chaque cellule contient donc une valeur et un lien vers la cellule suivante.
+- Une liste peut être vide (la liste vide est souvent notée `None`)
 
-## [Chapitre 4 : Interactions entre l’homme et la machine sur le Web](4.0.WEB.md)
+## Interface
+Les opérations généralement disponibles pour une liste chaînée sont :
+- Créer une liste vide
+- Savoir si la liste est vide
+- Insérer un élément en tête de liste
+- Récupérer l'élément en tête de liste
 
-## [Chapitre 5 : Architectures matérielles et systèmes d’exploitation](5.0.ARCHI.md)
+## Comparatif Tableaux / Listes chaînées
 
-## [Chapitre 6 : Langages et programmation](6.0.LANG.md)
+En python, le type `list` est en réalité ce que l'on appelle en algorithmique un **tableau**, c'est à dire une suite d'éléments contigus et ordonnés en mémoire. Ces éléments sont stockés en mémoire les uns à la suite des autres.
 
-## [Chapitre 7 : Algorithmique](7.0.ALGO.md)
+*Dans un tableau :*  
+
+- Le temps d'accès à n'importe quel élément est rapide. Ce temps d'accès est constant quelque soit l'élément.
+- L'insertion d'un élément au début ou au milieu de la liste est lente : cela oblige à décaler tous les éléments à droite de celui-ci. Le temps pris par l'insertion est proportionnel au nombre d'éléments à déplacer.
+
+
+*Dans une liste chaînée :*  
+- Le temps d'accès à n'importe quel élément peut être lent (proportionnel à la position de l'élément dans la liste).  
+- L'insertion d'un élément à l'intérieur de la liste est rapide : il y a simplement à modifier la valeur du lien de la cellule à gauche de l'endroit d'insertion. Toutefois, avant d'arriver à l'endroit d'insertion, il faut avoir parcouru toutes les cellules précédentes ! Le temps total d'insertion est donc lui aussi linéaire.
+
+:::danger
+Nous nous servirons parfois du type `list` de Python dans la suite de ce cours, mais il ne faut pas oublier qu'il n'est pas un «vrai» type représentant une liste chaînée mais plutôt un **tableau**.
+:::
+
+:::info
+### 📝 EXERCICE 1 - Manipulation d'une liste chaînée
+:::
 
