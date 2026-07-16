@@ -5,7 +5,7 @@
 
 ## Chapitre 1 : Langages et programmation
 - 1.1 - Algorithmes, programmation et langages
-- 2.2 - Introduction au langage Python
+- 1.2 - Introduction au langage Python
 - 1.3 - Constructions élémentaires : variables, boucles, instructions conditionnelles
 - 1.4 - Les fonctions, spécification
 - 1.5 - Utilisation de bibliothèques
@@ -45,6 +45,6 @@
 
 ## Chapitre 7 : Algorithmique avancée
 - 7.1 - Tris par insertion, par sélection
-- 7.2- Algorithme des k plus proches voisins
+- 7.2 - Algorithme des k plus proches voisins
 - 7.3 - Recherche dichotomique dans un tableau trié
 - 7.4 - Algorithmes gloutons
