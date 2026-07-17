@@ -1,16 +1,16 @@
 # Numérique et Sciences Informatiques Première
 
 ## Introduction
-[]- 0.1 - En classe de première
+- [x] 0.1 - En classe de première
 
 ## Chapitre 1 : Langages et programmation
-[]- 1.1 - Algorithmes, programmation et langages
-[]- 1.2 - Introduction au langage Python
-- 1.3 - Constructions élémentaires : variables, boucles, instructions conditionnelles
-- 1.4 - Les fonctions, spécification
-- 1.5 - Utilisation de bibliothèques
-- 1.6 - Tests et mise au point de programmes
-- 1.7 - Diversité et unité des langages de programmation
+- [] 1.1 - Algorithmes, programmation et langages
+- [] 1.2 - Introduction au langage Python
+- [] 1.3 - Constructions élémentaires : variables, boucles, instructions conditionnelles
+- [] 1.4 - Les fonctions, spécification
+- [] 1.5 - Utilisation de bibliothèques
+- [] 1.6 - Tests et mise au point de programmes
+- [] 1.7 - Diversité et unité des langages de programmation
 
 ## Chapitre 2 : Représentation des données
 - 2.1 - Écriture d’un entier positif dans une base b ⩾ 2
