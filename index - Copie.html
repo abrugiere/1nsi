@@ -86,7 +86,8 @@
         
         /* Conserver la couleur blanche des icônes ou une bonne visibilité quand l'onglet est actif */
         .sidebar a.nav-link.active .sidebar-icon {
-            filter: brightness(0) invert(1); /* Rend l'icône blanche lorsqu'elle est active */
+            /*filter: brightness(0) invert(1);  Rend l'icône blanche lorsqu'elle est active */
+            filter: none;
         }
 
         /* Contenu principal à droite */
@@ -151,6 +152,9 @@
             quotes: "\201C""\201D""\2018""\2019";
         }
 
+        .page-content a {
+            color: #3182ce;
+        }
 
         /* --- STYLE DES TUILES (GRID) SUR L'ACCUEIL --- */
         .home-grid {
@@ -640,38 +644,62 @@
 
     </div>
 
-    <!-- Le script pour gérer le clic -->
+    <!-- Le script mis à jour pour gérer le clic et le rafraîchissement -->
     <script>
         const links = document.querySelectorAll('.nav-link');
         const sections = document.querySelectorAll('.page-content');
 
+        // Fonction pour afficher une section spécifique
+        function showSection(targetId) {
+            if (!targetId) return;
+
+            // Gérer l'état actif sur le menu de gauche
+            const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
+            sidebarLinks.forEach(l => {
+                if (l.getAttribute('data-target') === targetId) {
+                    l.classList.add('active');
+                } else {
+                    l.classList.remove('active');
+                }
+            });
+
+            // Masquer toutes les sections et afficher uniquement la bonne
+            sections.forEach(section => {
+                if (section.id === targetId) {
+                    section.classList.add('active');
+                } else {
+                    section.classList.remove('active');
+                }
+            });
+        }
+
+        // 1. Écoute des clics sur les liens
         links.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-
                 const targetId = link.getAttribute('data-target');
+                
+                // Met à jour la section visuellement
+                showSection(targetId);
 
-                // Gérer l'état actif sur le menu de gauche
-                const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
-                sidebarLinks.forEach(l => {
-                    if (l.getAttribute('data-target') === targetId) {
-                        l.classList.add('active');
-                    } else {
-                        l.classList.remove('active');
-                    }
-                });
-
-                // Masquer toutes les sections et afficher uniquement la bonne
-                sections.forEach(section => {
-                    if (section.id === targetId) {
-                        section.classList.add('active');
-                    } else {
-                        section.classList.remove('active');
-                    }
-                });
+                // Met à jour l'ancre dans l'URL (ex: #page-chap1) sans recharger la page
+                window.location.hash = targetId;
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
+        });
+
+        // 2. Au chargement (ou rafraîchissement) de la page
+        window.addEventListener('DOMContentLoaded', () => {
+            // On récupère l'ancre actuelle dans l'URL (en enlevant le '#')
+            const currentHash = window.location.hash.substring(1);
+            
+            // Si une ancre valide existe, on affiche cette section, sinon on reste sur l'accueil
+            if (currentHash && document.getElementById(currentHash)) {
+                showSection(currentHash);
+            } else {
+                showSection('page-accueil');
+            }
         });
     </script>
 

@@ -5,12 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NSI Première</title>
     <style>
+        /* Variables CSS pour gérer facilement les deux thèmes */
+        :root {
+            --bg-main: #ffffff;
+            --bg-sidebar: #f4f5f7;
+            --border-color: #e0e0e0;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #a0aec0;
+            --sidebar-link-hover: #e2e8f0;
+            --tile-bg: #ffffff;
+            --tile-border: #e2e8f0;
+            --tile-hover-border: #cbd5e0;
+            --blockquote-bg: #f9f9f9;
+            --blockquote-border: #ccc;
+            --code-bg: #f4f4f4;
+            --code-text: #000000;
+            --accent-color: #3182ce;
+        }
+
+        /* Variables pour le Mode Sombre */
+        [data-theme="dark"] {
+            --bg-main: #1a202c;
+            --bg-sidebar: #121620;
+            --border-color: #2d3748;
+            --text-primary: #edf2f7;
+            --text-secondary: #cbd5e0;
+            --text-muted: #718096;
+            --sidebar-link-hover: #2d3748;
+            --tile-bg: #2d3748;
+            --tile-border: #4a5568;
+            --tile-hover-border: #718096;
+            --blockquote-bg: #2d3748;
+            --blockquote-border: #4a5568;
+            --code-bg: #2d3748;
+            --code-text: #f7fafc;
+            --accent-color: #4299e1;
+        }
+
         /* Reset de base pour enlever les marges par défaut */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
 
         /* Structure globale en Flexbox */
@@ -21,15 +60,17 @@
 
         /* Barre latérale gauche (Menu) */
         .sidebar {
-            width: 260px; /* Légèrement élargie pour le confort visuel avec les icônes */
-            background-color: #f4f5f7;
-            border-right: 1px solid #e0e0e0;
+            width: 260px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
             padding: 30px 15px;
+            display: flex;
+            flex-direction: column;
         }
 
         .sidebar h2 {
             font-size: 1.2rem;
-            color: #333;
+            color: var(--text-primary);
             margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -43,6 +84,7 @@
 
         .sidebar ul {
             list-style-type: none;
+            flex: 1; /* Permet d'occuper l'espace et pousse le bouton thèmes vers le bas */
         }
 
         .sidebar li {
@@ -51,52 +93,71 @@
 
         .sidebar a.nav-link {
             text-decoration: none;
-            color: #4a5568;
+            color: var(--text-secondary);
             font-size: 0.95rem;
             display: flex;
-            align-items: center; /* Aligne l'icône et le texte verticalement */
-            gap: 10px;          /* Espace entre l'icône et le texte */
+            align-items: center;
+            gap: 10px;
             padding: 8px 12px;
             border-radius: 6px;
-            transition: all 0.2s ease;
             cursor: pointer;
         }
 
         /* Style des petites icônes dans le menu latéral */
         .sidebar-icon {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             object-fit: contain;
-            flex-shrink: 0; /* Évite que l'icône ne s'écrase si le texte passe sur 2 lignes */
+            flex-shrink: 0;
         }
 
         /* Effet au survol des liens */
         .sidebar a.nav-link:hover {
-            background-color: #e2e8f0;
-            color: #1a202c;
+            background-color: var(--sidebar-link-hover);
+            color: var(--text-primary);
             padding-left: 16px;
         }
 
         /* Style pour l'onglet actuellement actif dans le menu */
         .sidebar a.nav-link.active {
-            background-color: #3182ce;
+            background-color: var(--accent-color);
             color: white;
             font-weight: bold;
         }
         
-        /* Conserver la couleur blanche des icônes ou une bonne visibilité quand l'onglet est actif */
         .sidebar a.nav-link.active .sidebar-icon {
-            /*filter: brightness(0) invert(1);  Rend l'icône blanche lorsqu'elle est active */
             filter: none;
+        }
+
+        /* --- BOUTON MODE SOMBRE --- */
+        .theme-toggle-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            font-weight: 500;
+        }
+
+        .theme-toggle-btn:hover {
+            background-color: var(--sidebar-link-hover);
+            color: var(--text-primary);
         }
 
         /* Contenu principal à droite */
         .main-content {
             flex: 1;
             padding: 40px;
-            background-color: #ffffff;
+            background-color: var(--bg-main);
             display: flex;
-            flex-direction: column; /* Permet de pousser le footer vers le bas */
+            flex-direction: column;
         }
 
         /* Masquer toutes les sections par défaut */
@@ -110,48 +171,57 @@
         }
 
         .page-content h1 {
-            color: #2d3748;
+            color: var(--text-primary);
             margin-bottom: 20px;
-            border-bottom: 2px solid #e2e8f0;
+            border-bottom: 2px solid var(--border-color);
             padding-bottom: 10px;
             text-align: center;
         }
 
         .page-content h2 {
-            color: #2d3748;
+            color: var(--text-primary);
             margin-bottom: 10px;
         }
 
         .page-content p {
-            color: #4a5568;
+            color: var(--text-secondary);
             margin-bottom: 10px;
         }
 
         .page-content ul {
             list-style-position: inside;
-            color: #4a5568;
+            color: var(--text-secondary);
             margin-left: 30px;
             margin-bottom: 10px;
         }
 
         .page-content code {
-          background-color: #f4f4f4;
-          color: #000000;
-          font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier,
-            monospace;
+          background-color: var(--code-bg);
+          color: var(--code-text);
+          font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
           padding: 0.2em 0.4em;
           font-size: 85%;
           border-radius: 6px;
         }
 
         .page-content blockquote {
-            background: #f9f9f9;
-            border-left: 5px solid #ccc;
+            background: var(--blockquote-bg);
+            border-left: 5px solid var(--blockquote-border);
             margin: 1.5em 10px;
             padding: 0.5em 10px;
-            quotes: "\201C""\201D""\2018""\2019";
+            color: var(--text-secondary);
         }
 
+        .page-content a {
+            color: var(--accent-color);
+        }
+
+        /* Correction pour les images/icônes en mode sombre pour ne pas qu'elles flashent trop */
+        [data-theme="dark"] .home-icon, 
+        [data-theme="dark"] .sidebar-icon,
+        [data-theme="dark"] main img {
+            opacity: 0.9;
+        }
 
         /* --- STYLE DES TUILES (GRID) SUR L'ACCUEIL --- */
         .home-grid {
@@ -170,20 +240,17 @@
             text-decoration: none;
             padding: 20px;
             height: 100%;
-            background-color: #ffffff;
-            border: 1px solid #e2e8f0;
+            background-color: var(--tile-bg);
+            border: 1px solid var(--tile-border);
             border-radius: 12px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-            cursor: pointer;
             text-align: center;
         }
 
-        /* Effet de soulèvement au survol de la tuile */
         .home-tile-link:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            border-color: #cbd5e0;
+            border-color: var(--tile-hover-border);
         }
 
         .home-icon {
@@ -193,36 +260,24 @@
             margin-bottom: 15px;
         }
 
-        /* Cas particulier pour l'introduction (icône texte ou espace) */
-        .home-intro-placeholder {
-            width: 80px;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-        }
-
         .home-text {
-            color: #2d3748;
+            color: var(--text-primary);
             font-size: 1rem;
             font-weight: 600;
             line-height: 1.4;
-            transition: color 0.2s;
         }
 
         .home-tile-link:hover .home-text {
-            color: #3182ce;
+            color: var(--accent-color);
         }
 
         /* --- STYLE DU FOOTER --- */
         footer {
-            margin-top: auto; /* Pousse le footer tout en bas */
+            margin-top: auto;
             padding-top: 40px;
-            border-top: 1px solid #e2e8f0;
+            border-top: 1px solid var(--border-color);
             text-align: center;
-            color: #a0aec0;
+            color: var(--text-muted);
             font-size: 0.9rem;
         }
 
@@ -234,7 +289,7 @@
             .sidebar {
                 width: 100%;
                 border-right: none;
-                border-bottom: 1px solid #e0e0e0;
+                border-bottom: 1px solid var(--border-color);
                 padding: 20px;
             }
             .home-grid {
@@ -249,8 +304,13 @@
         
         <!-- Barre latérale (Gauche) avec icônes intégrées -->
         <nav class="sidebar">
-            <h2><a class="nav-link active" data-target="page-accueil" style="cursor: pointer;">NSI Première</a></h2>
-            <hr style="margin: 15px 0; border: 0; border-top: 1px solid #e0e0e0;">
+            <h2><a class="nav-link active" data-target="page-accueil" style="cursor: pointer;">NSI Première</a>
+            <hr style="margin: 15px 0; border: 0; border-top: 1px solid var(--border-color);">
+            <!-- Bouton de bascule Mode Sombre / Mode Clair -->
+            <button id="theme-toggle" class="theme-toggle-btn">
+                <span id="theme-icon">🌙</span> <span id="theme-text">Mode Sombre</span>
+            </button>
+            </h2>
             <ul>
                 <li>
                     <a class="nav-link" data-target="page-intro">
@@ -301,6 +361,7 @@
                     </a>
                 </li>
             </ul>
+
         </nav>
 
         <!-- Zone de contenu (Droite) -->
@@ -362,22 +423,7 @@
                         </a>
                     </li>
                 </ul>                
-            <br>
-            <br>
-
-            <!--
-            <h2>Thème en cours :</h2>
-            <ul>
-            <li>Constructions élémentaires : variables, boucles, instructions conditionnelles</li>
-            </ul>
-            <br>
-            <h2>Dernier cours abordés :</h2>
-            <ul>
-            <li>Programmation : Introduction au langage Python</li>
-            <li>Programmation : Algorithmes, programmation et langages</li>
-            </ul>
-            -->
-
+                <br><br>
             </section>
 
             <!-- SECTION : Introduction -->
@@ -386,22 +432,24 @@
                 <center><img src="./site/intro.png" alt="" class="home-icon"></center>
                 <br>
                 <blockquote>
-                <p><font size=5rem;><strong>« Dans la nouvelle économie, l’informatique n’est plus une connaissance optionnelle. C’est une compétence basique, comme la lecture, l’écriture et l’arithmétique. »</strong></p>
-                <p align="right"><em>Barack Obama, 2016</em></font><br></p>
+                <p style="font-size: 1.25rem;"><strong>« Dans la nouvelle économie, l’informatique n’est plus une connaissance optionnelle. C’est une compétence basique, comme la lecture, l’écriture et l’arithmétique. »</strong></p>
+                <p align="right" style="font-size: 1.25rem;"><em>Barack Obama, 2016</em></p>
                 </blockquote>
                 <br>
                 <h2>📖 Le programme Officiel</h2>
                 <blockquote>
                 <p><a href="https://cache.media.education.gouv.fr/file/SP1-MEN-22-1-2019/26/8/spe633_annexe_1063268.pdf" target="_blank">Programme de l'enseignement de spécialité de NSI</a><br>
                 <em>Bulletin officiel de l'éducation nationale spécial n°1 du 22 janvier 2019</em></p>
-                <p>Cet enseignement s’appuie sur quatre concepts fondamentaux :
+                <br>
+                <p>Cet enseignement s’appuie sur quatre concepts fondamentaux :</p>
                 <ul>
-                <li>Les <strong>données</strong>, qui représentent sous une forme numérique  des informations diverses : textes, images, sons, mesures physiques, sommes d’argent, etc.</li>
+                <li>Les <strong>données</strong>, qui représentent sous une forme numérique des informations diverses : textes, images, sons, mesures physiques, sommes d’argent, etc.</li>
                 <li>Les <strong>algorithmes</strong>, qui spécifient de façon abstraite et précise des traitements à effectuer sur les données à partir d’opérations élémentaires.</li>
                 <li>Les <strong>langages</strong>, qui permettent de traduire ces algorithmes abstraits en programmes de façon à ce qu’ils soient exécutables par les machines.</li>
                 <li>Les <strong>machines</strong>, et leurs systèmes d’exploitation, qui permettent d’exécuter des programmes, assurent le stockage des données. On y inclut les objets connectés et les réseaux.</li>
                 </ul>
-                <p>En classe de première, le programme de NSI sera découpé en 7 chapitres :
+                <br>
+                <p>En classe de première, le programme de NSI sera découpé en 7 chapitres :</p>
                 <ul>
                 <li><strong>Langages et programmation</strong> (constructions élémentaires, spécification, mise au point, bibliothèques)</li>
                 <li><strong>Représentation des données</strong> à travers les types et valeurs de base (booléens, binaire, ASCII)</li>
@@ -410,8 +458,9 @@
                 <li><strong>Traitement de données en tables</strong> (indexation, recherche, tri et fusion)</li>
                 <li><strong>Architectures matérielles et systèmes d’exploitation</strong> (von Neumann, TCP/IP, OS, IHM)</li>
                 <li><strong>Algorithmique avancée</strong> (coût, parcours, tris, KNN, dichotomie)</li>
-                </ul></p>
-                <p>L'<strong>histoire de l'informatique</strong> sera traitée de manière transversalle tout au long des cours de première et terminale.</p>
+                </ul>
+                <br>
+                <p>L'<strong>histoire de l'informatique</strong> sera traitée de manière transversale tout au long des cours de première et terminale.</p>
                 <p>Un enseignement d’informatique ne saurait se réduire à une présentation de concepts ou de méthodes sans permettre aux élèves de se les approprier en développant des <strong>projets applicatifs</strong>.<br>
                 Une part de l’horaire de l’enseignement en classe de première doit être réservée à la conception et à l’élaboration de projets conduits par des groupes de deux à quatre élèves.</p>
                 </blockquote>
@@ -444,44 +493,42 @@
                 <li>Respecter ses camarades et le professeur</li>
                 <li>Respecter le matériel qui est notre outil de travail</li>
                 </ul></blockquote>
-                <br>
-                <br>
-                <br>
+                <br><br>
                 <h1>💻 Notre environnement de travail</h1>
                 <h2>Python et IDLE</h2>
                 <blockquote><p>
-                Pour pouvoir utiliser un langage de programmation, en particulier Python, il faut un environnement de développement souvent appelé IDE <a href="https://fr.wikipedia.org/wiki/Environnement_de_d%C3%A9veloppement"  target="_blank">Integrated Development Environment</a>.<br>
+                Pour pouvoir utiliser un langage de programmation, en particulier Python, il faut un environnement de développement souvent appelé IDE <a href="https://fr.wikipedia.org/wiki/Environnement_de_d%C3%A9veloppement" target="_blank">Integrated Development Environment</a>.<br>
                 Lorsqu'on installe Python, l'IDE par défaut est <strong>IDLE</strong>. Nous utiliserons celui-ci dans un premier temps.
                 Celui-ci est très simple, il composé de deux éléments principaux :<br>
                 <ul>
                 <li>L'<strong>éditeur</strong> qui permet de créer, modifier et enregistrer des programmes Python au format <code>.py</code></li>
                 <li>La <strong>console</strong> qui permet d'exécuter des instructions Python une à une et de suivre l'exécution des programmes.</li>
                 </ul>
-                <center><img src="./site/IDLE.png"></center>
+                <center><img src="./site/IDLE.png" alt="IDLE"></center>
                 Python (et IDLE qui vient avec) peut être téléchargé à l'adresse <a href="https://www.python.org/downloads/" target="_blank">https://www.python.org/downloads</a>
                 </p></blockquote>
                 <br>
                 <h2>Basthon en mode console</h2>
                 <blockquote><p>
                 L'utilisation d'un IDE nécessite l'<strong>installation</strong> du logiciel sur son ordinateur. <br> 
-                Il existe cependant un outil en ligne appelé <strong>basthon</strong> (c'est l'acronyme de "<strong>b</strong>ac <strong>à</strong> <strong>s</strong>able pour py<strong>thon</strong>" (par allusion à la lutte que peut parfois représenter l'apprentissage de la programmation) qui nous permettra de programmer en Python sans rien installer et quelque soit notre plateforme (PC, mac, Linux, tablette...)<br>
+                Il existe cependant un outil en ligne appelé <strong>basthon</strong> (c'est l'acronyme de "<strong>b</strong>ac <strong>à</strong> <strong>s</strong>able pour py<strong>thon</strong>") qui nous permettra de programmer en Python sans rien installer et quelque soit notre plateforme (PC, mac, Linux, tablette...)<br>
                 A la manière de IDLE, il permet de lancer des commandes dans la console Python et de créer, enregistrer et importer des fichiers <code>.py</code>.
-                <center><img src="./site/console_basthon.png"></center>
-                L'accès au site se fait à l'adresse  <a href="https://console.basthon.fr/" target="_blank">https://console.basthon.fr</a>.<br>
+                <center><img src="./site/console_basthon.png" alt="Basthon Console"></center>
+                L'accès au site se fait à l'adresse <a href="https://console.basthon.fr/" target="_blank">https://console.basthon.fr</a>.<br>
                 </p></blockquote>
                 <br>
                 <h2>Thonny</h2>
                 <blockquote><p>
                 Thonny est un autre IDE disponible au lycée, nous l'utiliserons en cours d'année car il dispose de certaines fonctionnalités non disponibles dans IDLE comme par exemple <strong>l'exploration de variables</strong> et <strong>l'inspecteur d'objets</strong>.<br>
-                <center><img src="./site/thonny.png"></center>
+                <center><img src="./site/thonny.png" alt="Thonny"></center>
                 Thonny peut être téléchargé à l'adresse <a href="https://thonny.org/" target="_blank">https://thonny.org</a> et il existe en version <strong>portable</strong>, c'est à dire exécutable à partir d'une clé USB sous n'importe quel ordinateur Windows.
                 </p></blockquote>
                 <br>
                 <h2>Python Tutor</h2>
                 <blockquote><p>
                 Python Tutor est un site web qui permet de visualiser l'exécution de code Python. Il nous sera très utile pour <strong>"décortiquer"</strong> du code pour le comprendre ou lors de la recherche de <strong>problèmes</strong> dans du code.<br>
-                <center><img src="./site/tutor.png"></center>
-                L'accès au site se fait à l'adresse  <a href="https://pythontutor.com/visualize.html#mode=edit" target="_blank">https://pythontutor.com/visualize.html#mode=edit</a>.<br>
+                <center><img src="./site/tutor.png" alt="Python Tutor"></center>
+                L'accès au site se fait à l'adresse <a href="https://pythontutor.com/visualize.html#mode=edit" target="_blank">https://pythontutor.com/visualize.html#mode=edit</a>.<br>
                 </p></blockquote>
                 <br>
                 <h2>Jupyter Notebook</h2>
@@ -494,17 +541,16 @@
                 <h2>Basthon en mode notebook</h2>
                 <blockquote><p>
                 Basthon permet aussi d'ouvrir, créer, enregistrer et exécuter les fichiers Jupyter Notebook en ligne.
-                L'accès au site se fait à l'adresse  <a href="https://notebook.basthon.fr/" target="_blank">https://notebook.basthon.fr</a>.<br>
-                <center><img src="./site/notebook_basthon.png"></center>
+                L'accès au site se fait à l'adresse <a href="https://notebook.basthon.fr/" target="_blank">https://notebook.basthon.fr</a>.<br>
+                <center><img src="./site/notebook_basthon.png" alt="Basthon Notebook"></center>
                 En cas de panne du site Basthon, <strong>Jupyter</strong> propose un éditeur en ligne de Notebooks à l'adresse <a href="https://jupyter.org/try-jupyter/lab" target="_blank">https://jupyter.org/try-jupyter/lab</a> le notebook peut être ouvert en utilisant le bouton <em>"Upload files"</em> pour charger votre fichier.
                </p></blockquote>
-                
                 <br>
                 <h2>Capytale</h2>
                 <blockquote><p>
-                Capytale est un outil qui permet l'utilisation des notebook sur le site Basthon mains avec une <strong>interface avec le lycée</strong> par l'ENT.<br>
+                Capytale est un outil qui permet l'utilisation des notebook sur le site Basthon mais avec une <strong>interface avec le lycée</strong> par l'ENT.<br>
                 Autrement-dit, il me permettra de vous donner des TPs à faire en ligne, de récupérer votre travail et de vous rendre ceux-ci avec une note et appréciation.<br>
-                <center><img src="./site/capytale.png"></center>
+                <center><img src="./site/capytale.png" alt="Capytale"></center>
                 L'accès aux notebooks vous sera donné par l'intermédiaire de liens que je vous fournirais.
                 </p></blockquote>
                 <br>
@@ -512,41 +558,34 @@
                 <blockquote><p>
                 Fondée en 2004, l'association France-IOI crée des contenus et outils pour découvrir la pensée informatique et progresser rapidement en programmation et algorithmique.<br> 
                 Parmi ces outils on peut noter le <strong>concours Castor</strong> et le <strong>concours Algoréa</strong>.<br>
-                L'accès au site se fait à l'adresse  <a href="https://www.france-ioi.org/" target="_blank">https://www.france-ioi.org</a>.<br>
-                L'ancien site est également accessible et met à dispoition un parcours pour progresser en Python, il est disponible à l'adresse <a href="https://www.france-ioi.org/algo/chapters.php" target="_blank">https://www.france-ioi.org/algo/chapters.php</a>
-                
+                L'accès au site se fait à l'adresse <a href="https://www.france-ioi.org/" target="_blank">https://www.france-ioi.org</a>.<br>
+                L'ancien site est également accessible et met à disposition un parcours pour progresser en Python, il est disponible à l'adresse <a href="https://www.france-ioi.org/algo/chapters.php" target="_blank">https://www.france-ioi.org/algo/chapters.php</a>
                 </p></blockquote>
-                <h2>Mais aussi...<h2>
+                <h2>Mais aussi...</h2>
                 <br><br>
-                <p><center><img src="./site/outils.png"></center></p>
+                <p><center><img src="./site/outils.png" alt="Outils"></center></p>
                 <br>
             </section>
 
             <!-- SECTION : CHAP1 -->
             <section id="page-chap1" class="page-content">
-
                 <h1>Chapitre 1 : Langages et programmation</h1>
                 <center><img src="./site/chapitre1.png" alt="" class="home-icon"></center>
-                
                 <h3><ul>
                 <li>Algorithmes, programmation et langages</li><br>
                 <li>Introduction au langage Python</li><br>
                 <li>Constructions élémentaires : variables, boucles, instructions conditionnelles</li><br>
                 <li>Les fonctions, spécification</li><br>
                 <li>Utilisation de bibliothèques</li><br>
-                <li>Tests et mise au point de programmes</li><br>
-                <br>
+                <li>Tests et mise au point de programmes</li><br><br>
                 <li>Diversité et unité des langages de programmation</li><br>
                 </ul></h3>
-
             </section>
 
             <!-- SECTION : CHAP2 -->
             <section id="page-chap2" class="page-content">
-
                 <h1>Chapitre 2 : Représentation des données</h1>
                 <center><img src="./site/chapitre2.png" alt="" class="home-icon"></center>
-
                 <h3><ul>
                 <li>Écriture d’un entier positif dans une base b ⩾ 2</li><br>
                 <li>Expressions booléennes</li><br>
@@ -554,82 +593,66 @@
                 <li>Représentation approximative des nombres réels : notion de nombre flottant</li><br>
                 <li>Représentation d’un texte en machine</li><br>
                 </ul></h3>
-
             </section>
 
             <!-- SECTION : CHAP3 -->
             <section id="page-chap3" class="page-content">
-
                 <h1>Chapitre 3 : Types construits</h1>
                 <center><img src="./site/chapitre3.png" alt="" class="home-icon"></center>
-                
                 <h3><ul>
                 <li>Tuples : <a href="./cours/3.1.tuples.pdf" target="_blank">Cours PDF</a> , <a href="https://capytale2.ac-paris.fr/web/c/35d0-10182577" target="_blank">TP Capytale</a></li><br>
                 <li>Tableau indexé</li><br>
                 <li>Parcours séquentiel d’un tableau</li><br>
                 <li>Dictionnaires par clés et valeurs</li><br>
                 </ul></h3>
-
             </section>
 
             <!-- SECTION : CHAP4 -->
             <section id="page-chap4" class="page-content">
-
                 <h1>Chapitre 4 : Interactions entre l’homme et la machine sur le Web</h1>
                 <center><img src="./site/chapitre4.png" alt="" class="home-icon"></center>
-
                 <h3><ul>
                 <li>Modalités de l’interaction entre l’homme et la machine. Événements</li><br>
                 <li>Interaction avec l’utilisateur dans une page Web</li><br>
                 <li>Interaction client-serveur. Requêtes HTTP, réponses du serveur</li><br>
                 <li>Formulaire d’une page Web</li><br>
                 </ul></h3>
-
             </section>
 
             <!-- SECTION : CHAP5 -->
             <section id="page-chap5" class="page-content">
-
                 <h1>Chapitre 5 : Traitement de données en tables</h1>
                 <center><img src="./site/chapitre5.png" alt="" class="home-icon"></center>
-
                 <h3><ul>
                 <li>Indexation de tables</li><br>
                 <li>Recherche dans une table</li><br>
                 <li>Tri d’une table</li><br>
                 <li>Fusion de tables</li><br>
                 </ul></h3>
-
             </section>
 
             <!-- SECTION : CHAP6 -->
             <section id="page-chap6" class="page-content">
-
                 <h1>Chapitre 6 : Architectures matérielles et systèmes d’exploitation</h1>
                 <center><img src="./site/chapitre6.png" alt="" class="home-icon"></center>
-
                 <h3><ul>
                 <li>Modèle d’architecture séquentielle (von Neumann)</li><br>
                 <li>Architecture d’un réseau et protocoles de communication</li><br>
                 <li>Systèmes d’exploitation et commandes Linux</li><br>
                 <li>Périphériques d’entrée et de sortie. Interface Homme-Machine (IHM)</li><br>
                 </ul></h3>
-
             </section>
 
             <!-- SECTION : CHAP7 -->
             <section id="page-chap7" class="page-content">
-
                 <h1>Chapitre 7 : Algorithmique avancée </h1>
                 <center><img src="./site/chapitre7.png" alt="" class="home-icon"></center>
-
                 <h3><ul>
                 <li>Tris par insertion, par sélection</li><br>
                 <li>Algorithme des k plus proches voisins</li><br>
                 <li>Recherche dichotomique dans un tableau trié</li><br>
                 <li>Algorithmes gloutons</li><br>
                 </ul></h3>
-
             </section>
 
             <!-- FOOTER -->
@@ -641,16 +664,18 @@
 
     </div>
 
-    <!-- Le script mis à jour pour gérer le clic et le rafraîchissement -->
+    <!-- Script complet (Navigation, Ancre & Mode Sombre) -->
     <script>
         const links = document.querySelectorAll('.nav-link');
         const sections = document.querySelectorAll('.page-content');
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeText = document.getElementById('theme-text');
 
-        // Fonction pour afficher une section spécifique
+        // --- GESTION DE LA NAVIGATION ---
         function showSection(targetId) {
             if (!targetId) return;
 
-            // Gérer l'état actif sur le menu de gauche
             const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
             sidebarLinks.forEach(l => {
                 if (l.getAttribute('data-target') === targetId) {
@@ -660,7 +685,6 @@
                 }
             });
 
-            // Masquer toutes les sections et afficher uniquement la bonne
             sections.forEach(section => {
                 if (section.id === targetId) {
                     section.classList.add('active');
@@ -670,28 +694,52 @@
             });
         }
 
-        // 1. Écoute des clics sur les liens
         links.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const targetId = link.getAttribute('data-target');
-                
-                // Met à jour la section visuellement
                 showSection(targetId);
-
-                // Met à jour l'ancre dans l'URL (ex: #page-chap1) sans recharger la page
                 window.location.hash = targetId;
-
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         });
 
-        // 2. Au chargement (ou rafraîchissement) de la page
+        // --- GESTION DU THEME (CLAIR / SOMBRE) ---
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeIcon.textContent = '☀︎';
+                themeText.textContent = 'Mode Clair';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                themeIcon.textContent = '⏾';
+                themeText.textContent = 'Mode Sombre';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                setTheme('light');
+            } else {
+                setTheme('dark');
+            }
+        });
+
+        // --- INITIALISATION AU CHARGEMENT DE LA PAGE ---
         window.addEventListener('DOMContentLoaded', () => {
-            // On récupère l'ancre actuelle dans l'URL (en enlevant le '#')
+            // 1. Charger le bon thème sauvegardé
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                setTheme('dark');
+            } else {
+                setTheme('light');
+            }
+
+            // 2. Charger la bonne section via l'ancre URL
             const currentHash = window.location.hash.substring(1);
-            
-            // Si une ancre valide existe, on affiche cette section, sinon on reste sur l'accueil
             if (currentHash && document.getElementById(currentHash)) {
                 showSection(currentHash);
             } else {
