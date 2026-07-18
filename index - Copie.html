@@ -36,7 +36,7 @@
             --tile-bg: #2d3748;
             --tile-border: #4a5568;
             --tile-hover-border: #718096;
-            --blockquote-bg: #2d3748;
+            --blockquote-bg: #2d3748b9;
             --blockquote-border: #4a5568;
             --code-bg: #2d3748;
             --code-text: #f7fafc;
@@ -87,7 +87,8 @@
             margin-bottom: 8px;
         }
 
-        .sidebar a.nav-link {
+        /* Liens classiques de navigation de la sidebar uniquement */
+        .sidebar ul a.nav-link {
             text-decoration: none;
             color: var(--text-secondary);
             font-size: 0.95rem;
@@ -99,6 +100,20 @@
             cursor: pointer;
         }
 
+        /* Effet au survol des liens de la liste */
+        .sidebar ul a.nav-link:hover {
+            background-color: var(--sidebar-link-hover);
+            color: var(--text-primary);
+            padding-left: 16px;
+        }
+
+        /* Style pour l'onglet actuellement actif dans le menu de la liste */
+        .sidebar ul a.nav-link.active {
+            background-color: var(--accent-color);
+            color: white;
+            font-weight: bold;
+        }
+
         /* Style des petites icônes dans le menu latéral */
         .sidebar-icon {
             width: 20px;
@@ -106,51 +121,16 @@
             object-fit: contain;
             flex-shrink: 0;
         }
-
-        /* Effet au survol des liens */
-        .sidebar a.nav-link:hover {
-            background-color: var(--sidebar-link-hover);
-            color: var(--text-primary);
-            padding-left: 16px;
-        }
-
-        /* Style pour l'onglet actuellement actif dans le menu */
-        .sidebar a.nav-link.active {
-            background-color: var(--accent-color);
-            color: white;
-            font-weight: bold;
-        }
-
-        .home-btn.active {
-            background-color: var(--accent-color);
-            border-color: var(--accent-color);
-        }
         
         .sidebar a.nav-link.active .sidebar-icon {
             filter: none;
         }
-
-        /* Bouton Home (ancien H2)
-        .home-btn {
-            background: none;
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            border-radius: 6px;
-            padding: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex: 1;
-        }
-        */
 
         /* --- BOUTON HOME --- */
         .home-btn {
             background: none;
             border: 1px solid var(--border-color);
             color: var(--text-secondary);
-            padding: 10px;
             border-radius: 6px;
             cursor: pointer;
             display: flex;
@@ -158,7 +138,10 @@
             justify-content: center;
             font-size: 1rem;
             font-weight: 500;
-            flex: 1;
+            /* Dimensions strictes et fixes */
+            width: 110px;
+            height: 42px;
+            flex-shrink: 0;
         }
 
         .home-btn:hover {
@@ -166,12 +149,17 @@
             color: var(--text-primary);
         }
 
+        .home-btn.active {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: white;
+        }
+
         /* --- BOUTON MODE SOMBRE --- */
         .theme-toggle-btn {
             background: none;
             border: 1px solid var(--border-color);
             color: var(--text-secondary);
-            padding: 10px;
             border-radius: 6px;
             cursor: pointer;
             display: flex;
@@ -179,7 +167,10 @@
             justify-content: center;
             font-size: 1rem;
             font-weight: 500;
-            flex: 1;
+            /* Dimensions strictement identiques au bouton Home */
+            width: 110px;
+            height: 42px;
+            flex-shrink: 0;
         }
 
         .theme-toggle-btn:hover {
@@ -252,12 +243,17 @@
             color: var(--accent-color);
         }
 
-        /* Correction pour les images/icônes en mode sombre pour ne pas qu'elles flashent trop */
+        /* Correction pour les images/icônes en mode sombre */
         [data-theme="dark"] .home-icon, 
         [data-theme="dark"] .sidebar-icon,
         [data-theme="dark"] main img {
             opacity: 0.9;
         }
+
+        [data-theme="dark"] .home-icon, 
+        [data-theme="dark"] .sidebar-icon {
+            filter: invert(80%);
+        }       
 
         /* --- STYLE DES TUILES (GRID) SUR L'ACCUEIL --- */
         .home-grid {
@@ -281,6 +277,7 @@
             border-radius: 12px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
             text-align: center;
+            cursor: pointer;
         }
 
         .home-tile-link:hover {
@@ -328,6 +325,10 @@
                 border-bottom: 1px solid var(--border-color);
                 padding: 20px;
             }
+            .sidebar-header {
+                justify-content: center;
+                gap: 20px;
+            }
             .home-grid {
                 grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             }
@@ -338,15 +339,15 @@
 
     <div class="container">
         
-        <!-- Barre latérale (Gauche) avec icônes intégrées -->
+        <!-- Barre latérale (Gauche) -->
         <nav class="sidebar">
             <div class="sidebar-header">
-                <!-- Bouton icône Accueil (Remplace l'ancien H2) -->
+                <!-- Bouton icône Accueil -->
                 <button class="nav-link home-btn active" data-target="page-accueil" title="Accueil">
                     <span style="font-size: 1.2rem;">🏠︎</span>
                 </button>
                 
-                <!-- Bouton de bascule Mode Sombre / Mode Clair à côté -->
+                <!-- Bouton de bascule Mode Sombre / Mode Clair -->
                 <button id="theme-toggle" class="theme-toggle-btn" title="Changer le thème">
                     <span id="theme-icon">⏾</span>
                 </button>
@@ -587,7 +588,8 @@
                 L'accès au site se fait à l'adresse <a href="https://notebook.basthon.fr/" target="_blank">https://notebook.basthon.fr</a>.<br>
                 <center><img src="./site/notebook_basthon.png" alt="Basthon Notebook"></center>
                 En cas de panne du site Basthon, <strong>Jupyter</strong> propose un éditeur en ligne de Notebooks à l'adresse <a href="https://jupyter.org/try-jupyter/lab" target="_blank">https://jupyter.org/try-jupyter/lab</a> le notebook peut être ouvert en utilisant le bouton <em>"Upload files"</em> pour charger votre fichier.
-               </p></blockquote>
+               </p>
+                </blockquote>
                 <br>
                 <h2>Capytale</h2>
                 <blockquote><p>
@@ -718,7 +720,7 @@
         function showSection(targetId) {
             if (!targetId) return;
 
-            // Gestion de l'état actif sur TOUS les boutons/liens de navigation (y compris le bouton Home)
+            // Gestion de l'état actif sur TOUS les boutons/liens de navigation
             links.forEach(l => {
                 if (l.getAttribute('data-target') === targetId) {
                     l.classList.add('active');

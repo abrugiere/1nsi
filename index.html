@@ -66,6 +66,9 @@
             padding: 30px 15px;
             display: flex;
             flex-direction: column;
+            position: sticky;
+            top: 0;
+            max-height: 100vh;
         }
 
         /* En-tête de la sidebar regroupant Accueil et Thème côte à côte */
@@ -306,14 +309,13 @@
 
         /* --- STYLE DU FOOTER --- */
         footer {
-            margin-top: auto;
-            padding-top: 40px;
+            margin-top: auto; /* Permet de bien le caler en bas si nécessaire */
+            padding-top: 15px; /* Réduit l'espace du haut pour la sidebar */
             border-top: 1px solid var(--border-color);
             text-align: center;
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.8rem; /* Légèrement plus petit pour mieux s'adapter à la largeur de la sidebar */
         }
-
         /* Version Mobile */
         @media (max-width: 768px) {
             .container {
@@ -405,6 +407,11 @@
                     </a>
                 </li>
             </ul>
+
+            <!-- FOOTER -->
+            <footer>
+                <p>Spécialité NSI Première<br>Lycée Ambroise Brugière</p>
+            </footer>
 
         </nav>
 
@@ -699,12 +706,6 @@
                 <li>Algorithmes gloutons</li><br>
                 </ul></h3>
             </section>
-
-            <!-- FOOTER -->
-            <footer>
-                <p>&copy; Spécialité NSI Première lycée Ambroise Brugière.</p>
-            </footer>
-
         </main>
 
     </div>
