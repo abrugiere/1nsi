@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NSI Première</title>
+    <style>
+        /* Reset de base pour enlever les marges par défaut */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Structure globale en Flexbox */
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Barre latérale gauche (Menu) */
+        .sidebar {
+            width: 260px; /* Légèrement élargie pour le confort visuel avec les icônes */
+            background-color: #f4f5f7;
+            border-right: 1px solid #e0e0e0;
+            padding: 30px 15px;
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-left: 10px;
+        }
+
+        .sidebar h2 a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+        }
+
+        .sidebar li {
+            margin-bottom: 8px;
+        }
+
+        .sidebar a.nav-link {
+            text-decoration: none;
+            color: #4a5568;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center; /* Aligne l'icône et le texte verticalement */
+            gap: 10px;          /* Espace entre l'icône et le texte */
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        /* Style des petites icônes dans le menu latéral */
+        .sidebar-icon {
+            width: 18px;
+            height: 18px;
+            object-fit: contain;
+            flex-shrink: 0; /* Évite que l'icône ne s'écrase si le texte passe sur 2 lignes */
+        }
+
+        /* Effet au survol des liens */
+        .sidebar a.nav-link:hover {
+            background-color: #e2e8f0;
+            color: #1a202c;
+            padding-left: 16px;
+        }
+
+        /* Style pour l'onglet actuellement actif dans le menu */
+        .sidebar a.nav-link.active {
+            background-color: #3182ce;
+            color: white;
+            font-weight: bold;
+        }
+        
+        /* Conserver la couleur blanche des icônes ou une bonne visibilité quand l'onglet est actif */
+        .sidebar a.nav-link.active .sidebar-icon {
+            filter: brightness(0) invert(1); /* Rend l'icône blanche lorsqu'elle est active */
+        }
+
+        /* Contenu principal à droite */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column; /* Permet de pousser le footer vers le bas */
+        }
+
+        /* Masquer toutes les sections par défaut */
+        .page-content {
+            display: none;
+        }
+
+        /* Classe pour afficher uniquement la section active */
+        .page-content.active {
+            display: block;
+        }
+
+        .page-content h1 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
+        .page-content h2 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .page-content p {
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+
+        .page-content ul {
+            list-style-position: inside;
+            color: #4a5568;
+            margin-left: 30px;
+            margin-bottom: 10px;
+        }
+
+        .page-content code {
+          background-color: #f4f4f4;
+          color: #000000;
+          font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier,
+            monospace;
+          padding: 0.2em 0.4em;
+          font-size: 85%;
+          border-radius: 6px;
+        }
+
+        .page-content blockquote {
+            background: #f9f9f9;
+            border-left: 5px solid #ccc;
+            margin: 1.5em 10px;
+            padding: 0.5em 10px;
+            quotes: "\201C""\201D""\2018""\2019";
+        }
+
+
+        /* --- STYLE DES TUILES (GRID) SUR L'ACCUEIL --- */
+        .home-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            list-style: none;
+            margin-top: 30px;
+        }
+
+        .home-tile-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            text-decoration: none;
+            padding: 20px;
+            height: 100%;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        /* Effet de soulèvement au survol de la tuile */
+        .home-tile-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #cbd5e0;
+        }
+
+        .home-icon {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+
+        /* Cas particulier pour l'introduction (icône texte ou espace) */
+        .home-intro-placeholder {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .home-text {
+            color: #2d3748;
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.4;
+            transition: color 0.2s;
+        }
+
+        .home-tile-link:hover .home-text {
+            color: #3182ce;
+        }
+
+        /* --- STYLE DU FOOTER --- */
+        footer {
+            margin-top: auto; /* Pousse le footer tout en bas */
+            padding-top: 40px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+
+        /* Version Mobile */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+                padding: 20px;
+            }
+            .home-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- Barre latérale (Gauche) avec icônes intégrées -->
+        <nav class="sidebar">
+            <h2><a class="nav-link active" data-target="page-accueil" style="cursor: pointer;">NSI Première</a></h2>
+            <hr style="margin: 15px 0; border: 0; border-top: 1px solid #e0e0e0;">
+            <ul>
+                <li>
+                    <a class="nav-link" data-target="page-intro">
+                        <img src="./site/intro.png" alt="" class="sidebar-icon">
+                        <span>Introduction</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" data-target="page-chap1">
+                        <img src="./site/chapitre1.png" alt="" class="sidebar-icon">
+                        <span>Programmation</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" data-target="page-chap2">
+                        <img src="./site/chapitre2.png" alt="" class="sidebar-icon">
+                        <span>Données</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" data-target="page-chap3">
+                        <img src="./site/chapitre3.png" alt="" class="sidebar-icon">
+                        <span>Types construits</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" data-target="page-chap4">
+                        <img src="./site/chapitre4.png" alt="" class="sidebar-icon">
+                        <span>Web</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" data-target="page-chap5">
+                        <img src="./site/chapitre5.png" alt="" class="sidebar-icon">
+                        <span>Tables</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" data-target="page-chap6">
+                        <img src="./site/chapitre6.png" alt="" class="sidebar-icon">
+                        <span>Architecture</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" data-target="page-chap7">
+                        <img src="./site/chapitre7.png" alt="" class="sidebar-icon">
+                        <span>Algorithmique</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Zone de contenu (Droite) -->
+        <main class="main-content">
+            
+            <!-- SECTION : ACCUEIL -->
+            <section id="page-accueil" class="page-content active">
+                <h1>Numérique et Sciences Informatiques Première</h1>
+                <p>Bienvenue dans votre espace d'apprentissage de NSI. Sélectionnez un chapitre ci-dessous ou dans le menu de gauche pour commencer.</p>
+
+                <!-- Grille de tuiles -->
+                <ul class="home-grid">
+                    <li>
+                        <a class="nav-link home-tile-link" data-target="page-intro">
+                            <img src="./site/intro.png" alt="" class="home-icon">
+                            <span class="home-text">Introduction</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link home-tile-link" data-target="page-chap1">
+                            <img src="./site/chapitre1.png" alt="" class="home-icon">
+                            <span class="home-text">Langages et programmation</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link home-tile-link" data-target="page-chap2">
+                            <img src="./site/chapitre2.png" alt="" class="home-icon">
+                            <span class="home-text">Représentation des données</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link home-tile-link" data-target="page-chap3">
+                            <img src="./site/chapitre3.png" alt="" class="home-icon">
+                            <span class="home-text">Types construits</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link home-tile-link" data-target="page-chap4">
+                            <img src="./site/chapitre4.png" alt="" class="home-icon">
+                            <span class="home-text">Interactions Homme-Machine sur le Web</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link home-tile-link" data-target="page-chap5">
+                            <img src="./site/chapitre5.png" alt="" class="home-icon">
+                            <span class="home-text">Traitement des données en tables</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link home-tile-link" data-target="page-chap6">
+                            <img src="./site/chapitre6.png" alt="" class="home-icon">
+                            <span class="home-text">Architectures et systèmes d'exploitation</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link home-tile-link" data-target="page-chap7">
+                            <img src="./site/chapitre7.png" alt="" class="home-icon">
+                            <span class="home-text">Algorithmique avancée</span>
+                        </a>
+                    </li>
+                </ul>                
+            <br>
+            <br>
+
+            <!--
+            <h2>Thème en cours :</h2>
+            <ul>
+            <li>Constructions élémentaires : variables, boucles, instructions conditionnelles</li>
+            </ul>
+            <br>
+            <h2>Dernier cours abordés :</h2>
+            <ul>
+            <li>Programmation : Introduction au langage Python</li>
+            <li>Programmation : Algorithmes, programmation et langages</li>
+            </ul>
+            -->
+
+            </section>
+
+            <!-- SECTION : Introduction -->
+            <section id="page-intro" class="page-content">
+                <h1>En classe de première</h1>
+                <center><img src="./site/intro.png" alt="" class="home-icon"></center>
+                <br>
+                <blockquote>
+                <p><font size=5rem;><strong>« Dans la nouvelle économie, l’informatique n’est plus une connaissance optionnelle. C’est une compétence basique, comme la lecture, l’écriture et l’arithmétique. »</strong></p>
+                <p align="right"><em>Barack Obama, 2016</em></font><br></p>
+                </blockquote>
+                <br>
+                <h2>📖 Le programme Officiel</h2>
+                <blockquote>
+                <p><a href="https://cache.media.education.gouv.fr/file/SP1-MEN-22-1-2019/26/8/spe633_annexe_1063268.pdf" target="_blank">Programme de l'enseignement de spécialité de NSI</a><br>
+                <em>Bulletin officiel de l'éducation nationale spécial n°1 du 22 janvier 2019</em></p>
+                <p>Cet enseignement s’appuie sur quatre concepts fondamentaux :
+                <ul>
+                <li>Les <strong>données</strong>, qui représentent sous une forme numérique  des informations diverses : textes, images, sons, mesures physiques, sommes d’argent, etc.</li>
+                <li>Les <strong>algorithmes</strong>, qui spécifient de façon abstraite et précise des traitements à effectuer sur les données à partir d’opérations élémentaires.</li>
+                <li>Les <strong>langages</strong>, qui permettent de traduire ces algorithmes abstraits en programmes de façon à ce qu’ils soient exécutables par les machines.</li>
+                <li>Les <strong>machines</strong>, et leurs systèmes d’exploitation, qui permettent d’exécuter des programmes, assurent le stockage des données. On y inclut les objets connectés et les réseaux.</li>
+                </ul>
+                <p>En classe de première, le programme de NSI sera découpé en 7 chapitres :
+                <ul>
+                <li><strong>Langages et programmation</strong> (constructions élémentaires, spécification, mise au point, bibliothèques)</li>
+                <li><strong>Représentation des données</strong> à travers les types et valeurs de base (booléens, binaire, ASCII)</li>
+                <li><strong>Types construits</strong> (tuples, tableaux, dictionnaires)</li>
+                <li><strong>Interactions Homme-Machine sur le Web</strong> (HTML, intéractions, HTTP)</li>
+                <li><strong>Traitement de données en tables</strong> (indexation, recherche, tri et fusion)</li>
+                <li><strong>Architectures matérielles et systèmes d’exploitation</strong> (von Neumann, TCP/IP, OS, IHM)</li>
+                <li><strong>Algorithmique avancée</strong> (coût, parcours, tris, KNN, dichotomie)</li>
+                </ul></p>
+                <p>L'<strong>histoire de l'informatique</strong> sera traitée de manière transversalle tout au long des cours de première et terminale.</p>
+                <p>Un enseignement d’informatique ne saurait se réduire à une présentation de concepts ou de méthodes sans permettre aux élèves de se les approprier en développant des <strong>projets applicatifs</strong>.<br>
+                Une part de l’horaire de l’enseignement en classe de première doit être réservée à la conception et à l’élaboration de projets conduits par des groupes de deux à quatre élèves.</p>
+                </blockquote>
+                <br>
+                <h2>🕦 La répartition en première</h2>
+                <blockquote>
+                <p>4 heures de cours répartis en 2 blocs de 2 heures</p>
+                <p>Il n'y a pas de répartition standard de ces 4 heures entre les cours et les TPs, les cours contiendront des exercices de compréhension et peuvent s'étaler sur 1/2 séance (1h) ou plusieurs séances (2 x 2 heures) les TPs s'étaleront souvent sur une séance complète (2h).</p></blockquote>
+                <br>
+                <h2>📝 Les évaluations</h2>
+                <blockquote><ul>
+                <li>Devoirs surveillés (QCM ou exercices à l'écrit)</li>
+                <li>Activités sur machine en classe</li>
+                <li>Projets</li>
+                <li>Devoirs maison</li>
+                </ul></blockquote>
+                <br>
+                <h2>✅ Les besoins</h2>
+                <blockquote><ul>
+                <li>Une clé <strong>USB</strong> ou un drive pour sauvegarder vos cours, exercices et TP que vous aurez modifiés</li>
+                <li>Des <strong>écouteurs</strong> avec une prise Jack 3.5mm mâle pour pouvoir écouter des vidéos parfois intégrées au cours (pas de bluetooth ou airpods)</li>
+                <li>Connaître ses accès aux <strong>ordinateurs</strong>, à l'<strong>ENT</strong> et <strong>Pronote</strong></li>
+                </ul></blockquote>
+                <br>
+                <h2>⚠️ Les règles</h2>
+                <blockquote><ul>
+                <li>Etre à l’heure : une tolérance de 5mn, au delà le cours ne sera plus accessible</li>
+                <li>Poser son téléphone dans la PhoneBox à son arrivée en classe</li>
+                <li>Passer aux toilettes avant ou après le cours, pas de sortie pendant le cours</li>
+                <li>Respecter ses camarades et le professeur</li>
+                <li>Respecter le matériel qui est notre outil de travail</li>
+                </ul></blockquote>
+                <br>
+                <br>
+                <br>
+                <h1>💻 Notre environnement de travail</h1>
+                <h2>Python et IDLE</h2>
+                <blockquote><p>
+                Pour pouvoir utiliser un langage de programmation, en particulier Python, il faut un environnement de développement souvent appelé IDE <a href="https://fr.wikipedia.org/wiki/Environnement_de_d%C3%A9veloppement"  target="_blank">Integrated Development Environment</a>.<br>
+                Lorsqu'on installe Python, l'IDE par défaut est <strong>IDLE</strong>. Nous utiliserons celui-ci dans un premier temps.
+                Celui-ci est très simple, il composé de deux éléments principaux :<br>
+                <ul>
+                <li>L'<strong>éditeur</strong> qui permet de créer, modifier et enregistrer des programmes Python au format <code>.py</code></li>
+                <li>La <strong>console</strong> qui permet d'exécuter des instructions Python une à une et de suivre l'exécution des programmes.</li>
+                </ul>
+                <center><img src="./site/IDLE.png"></center>
+                Python (et IDLE qui vient avec) peut être téléchargé à l'adresse <a href="https://www.python.org/downloads/" target="_blank">https://www.python.org/downloads</a>
+                </p></blockquote>
+                <br>
+                <h2>Basthon en mode console</h2>
+                <blockquote><p>
+                L'utilisation d'un IDE nécessite l'<strong>installation</strong> du logiciel sur son ordinateur. <br> 
+                Il existe cependant un outil en ligne appelé <strong>basthon</strong> (c'est l'acronyme de "<strong>b</strong>ac <strong>à</strong> <strong>s</strong>able pour py<strong>thon</strong>" (par allusion à la lutte que peut parfois représenter l'apprentissage de la programmation) qui nous permettra de programmer en Python sans rien installer et quelque soit notre plateforme (PC, mac, Linux, tablette...)<br>
+                A la manière de IDLE, il permet de lancer des commandes dans la console Python et de créer, enregistrer et importer des fichiers <code>.py</code>.
+                <center><img src="./site/console_basthon.png"></center>
+                L'accès au site se fait à l'adresse  <a href="https://console.basthon.fr/" target="_blank">https://console.basthon.fr</a>.<br>
+                </p></blockquote>
+                <br>
+                <h2>Thonny</h2>
+                <blockquote><p>
+                Thonny est un autre IDE disponible au lycée, nous l'utiliserons en cours d'année car il dispose de certaines fonctionnalités non disponibles dans IDLE comme par exemple <strong>l'exploration de variables</strong> et <strong>l'inspecteur d'objets</strong>.<br>
+                <center><img src="./site/thonny.png"></center>
+                Thonny peut être téléchargé à l'adresse <a href="https://thonny.org/" target="_blank">https://thonny.org</a> et il existe en version <strong>portable</strong>, c'est à dire exécutable à partir d'une clé USB sous n'importe quel ordinateur Windows.
+                </p></blockquote>
+                <br>
+                <h2>Python Tutor</h2>
+                <blockquote><p>
+                Python Tutor est un site web qui permet de visualiser l'exécution de code Python. Il nous sera très utile pour <strong>"décortiquer"</strong> du code pour le comprendre ou lors de la recherche de <strong>problèmes</strong> dans du code.<br>
+                <center><img src="./site/tutor.png"></center>
+                L'accès au site se fait à l'adresse  <a href="https://pythontutor.com/visualize.html#mode=edit" target="_blank">https://pythontutor.com/visualize.html#mode=edit</a>.<br>
+                </p></blockquote>
+                <br>
+                <h2>Jupyter Notebook</h2>
+                <blockquote>
+                <p>Jupyter Notebook est un environnement de programmation interactif permettant de créer des document intitulés "notebooks". Il s'agit de documents se présentant sous la forme d'une succession de cellules qui peuvent contenir du code <strong>Python</strong>, du <strong>texte brut</strong>, des formules mathématiques, des graphiques ou encore du texte mis en forme grâce au langage <strong>markdown</strong>.<br>
+                Les notebooks possèdent généralement l'extension <code>.ipynb</code>.<br>
+                Pour utiliser les notebooks Jupyter il faut généralement installer le logiciel sur son ordinateur.
+                </p></blockquote>
+                <br>
+                <h2>Basthon en mode notebook</h2>
+                <blockquote><p>
+                Basthon permet aussi d'ouvrir, créer, enregistrer et exécuter les fichiers Jupyter Notebook en ligne.
+                L'accès au site se fait à l'adresse  <a href="https://notebook.basthon.fr/" target="_blank">https://notebook.basthon.fr</a>.<br>
+                <center><img src="./site/notebook_basthon.png"></center>
+                En cas de panne du site Basthon, <strong>Jupyter</strong> propose un éditeur en ligne de Notebooks à l'adresse <a href="https://jupyter.org/try-jupyter/lab" target="_blank">https://jupyter.org/try-jupyter/lab</a> le notebook peut être ouvert en utilisant le bouton <em>"Upload files"</em> pour charger votre fichier.
+               </p></blockquote>
+                
+                <br>
+                <h2>Capytale</h2>
+                <blockquote><p>
+                Capytale est un outil qui permet l'utilisation des notebook sur le site Basthon mains avec une <strong>interface avec le lycée</strong> par l'ENT.<br>
+                Autrement-dit, il me permettra de vous donner des TPs à faire en ligne, de récupérer votre travail et de vous rendre ceux-ci avec une note et appréciation.<br>
+                <center><img src="./site/capytale.png"></center>
+                L'accès aux notebooks vous sera donné par l'intermédiaire de liens que je vous fournirais.
+                </p></blockquote>
+                <br>
+                <h2>France IOI</h2>
+                <blockquote><p>
+                Fondée en 2004, l'association France-IOI crée des contenus et outils pour découvrir la pensée informatique et progresser rapidement en programmation et algorithmique.<br> 
+                Parmi ces outils on peut noter le <strong>concours Castor</strong> et le <strong>concours Algoréa</strong>.<br>
+                L'accès au site se fait à l'adresse  <a href="https://www.france-ioi.org/" target="_blank">https://www.france-ioi.org</a>.<br>
+                L'ancien site est également accessible et met à dispoition un parcours pour progresser en Python, il est disponible à l'adresse <a href="https://www.france-ioi.org/algo/chapters.php" target="_blank">https://www.france-ioi.org/algo/chapters.php</a>
+                
+                </p></blockquote>
+                <h2>Mais aussi...<h2>
+                <br><br>
+                <p><center><img src="./site/outils.png"></center></p>
+                <br>
+            </section>
+
+            <!-- SECTION : CHAP1 -->
+            <section id="page-chap1" class="page-content">
+
+                <h1>Chapitre 1 : Langages et programmation</h1>
+                <center><img src="./site/chapitre1.png" alt="" class="home-icon"></center>
+                
+                <h3><ul>
+                <li>Algorithmes, programmation et langages</li><br>
+                <li>Introduction au langage Python</li><br>
+                <li>Constructions élémentaires : variables, boucles, instructions conditionnelles</li><br>
+                <li>Les fonctions, spécification</li><br>
+                <li>Utilisation de bibliothèques</li><br>
+                <li>Tests et mise au point de programmes</li><br>
+                <br>
+                <li>Diversité et unité des langages de programmation</li><br>
+                </ul></h3>
+
+            </section>
+
+            <!-- SECTION : CHAP2 -->
+            <section id="page-chap2" class="page-content">
+
+                <h1>Chapitre 2 : Représentation des données</h1>
+                <center><img src="./site/chapitre2.png" alt="" class="home-icon"></center>
+
+                <h3><ul>
+                <li>Écriture d’un entier positif dans une base b ⩾ 2</li><br>
+                <li>Expressions booléennes</li><br>
+                <li>Représentation binaire d’un entier relatif</li><br>
+                <li>Représentation approximative des nombres réels : notion de nombre flottant</li><br>
+                <li>Représentation d’un texte en machine</li><br>
+                </ul></h3>
+
+            </section>
+
+            <!-- SECTION : CHAP3 -->
+            <section id="page-chap3" class="page-content">
+
+                <h1>Chapitre 3 : Types construits</h1>
+                <center><img src="./site/chapitre3.png" alt="" class="home-icon"></center>
+                
+                <h3><ul>
+                <li>Tuples : <a href="./cours/3.1.tuples.pdf" target="_blank">Cours PDF</a> , <a href="https://capytale2.ac-paris.fr/web/c/35d0-10182577" target="_blank">TP Capytale</a></li><br>
+                <li>Tableau indexé</li><br>
+                <li>Parcours séquentiel d’un tableau</li><br>
+                <li>Dictionnaires par clés et valeurs</li><br>
+                </ul></h3>
+
+            </section>
+
+            <!-- SECTION : CHAP4 -->
+            <section id="page-chap4" class="page-content">
+
+                <h1>Chapitre 4 : Interactions entre l’homme et la machine sur le Web</h1>
+                <center><img src="./site/chapitre4.png" alt="" class="home-icon"></center>
+
+                <h3><ul>
+                <li>Modalités de l’interaction entre l’homme et la machine. Événements</li><br>
+                <li>Interaction avec l’utilisateur dans une page Web</li><br>
+                <li>Interaction client-serveur. Requêtes HTTP, réponses du serveur</li><br>
+                <li>Formulaire d’une page Web</li><br>
+                </ul></h3>
+
+            </section>
+
+            <!-- SECTION : CHAP5 -->
+            <section id="page-chap5" class="page-content">
+
+                <h1>Chapitre 5 : Traitement de données en tables</h1>
+                <center><img src="./site/chapitre5.png" alt="" class="home-icon"></center>
+
+                <h3><ul>
+                <li>Indexation de tables</li><br>
+                <li>Recherche dans une table</li><br>
+                <li>Tri d’une table</li><br>
+                <li>Fusion de tables</li><br>
+                </ul></h3>
+
+            </section>
+
+            <!-- SECTION : CHAP6 -->
+            <section id="page-chap6" class="page-content">
+
+                <h1>Chapitre 6 : Architectures matérielles et systèmes d’exploitation</h1>
+                <center><img src="./site/chapitre6.png" alt="" class="home-icon"></center>
+
+                <h3><ul>
+                <li>Modèle d’architecture séquentielle (von Neumann)</li><br>
+                <li>Architecture d’un réseau et protocoles de communication</li><br>
+                <li>Systèmes d’exploitation et commandes Linux</li><br>
+                <li>Périphériques d’entrée et de sortie. Interface Homme-Machine (IHM)</li><br>
+                </ul></h3>
+
+            </section>
+
+            <!-- SECTION : CHAP7 -->
+            <section id="page-chap7" class="page-content">
+
+                <h1>Chapitre 7 : Algorithmique avancée </h1>
+                <center><img src="./site/chapitre7.png" alt="" class="home-icon"></center>
+
+                <h3><ul>
+                <li>Tris par insertion, par sélection</li><br>
+                <li>Algorithme des k plus proches voisins</li><br>
+                <li>Recherche dichotomique dans un tableau trié</li><br>
+                <li>Algorithmes gloutons</li><br>
+                </ul></h3>
+
+            </section>
+
+            <!-- FOOTER -->
+            <footer>
+                <p>&copy; Spécialité NSI Première lycée Ambroise Brugière.</p>
+            </footer>
+
+        </main>
+
+    </div>
+
+    <!-- Le script pour gérer le clic -->
+    <script>
+        const links = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('.page-content');
+
+        links.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                const targetId = link.getAttribute('data-target');
+
+                // Gérer l'état actif sur le menu de gauche
+                const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
+                sidebarLinks.forEach(l => {
+                    if (l.getAttribute('data-target') === targetId) {
+                        l.classList.add('active');
+                    } else {
+                        l.classList.remove('active');
+                    }
+                });
+
+                // Masquer toutes les sections et afficher uniquement la bonne
+                sections.forEach(section => {
+                    if (section.id === targetId) {
+                        section.classList.add('active');
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+
+</body>
+</html>
