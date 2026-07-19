@@ -322,6 +322,7 @@
             .container {
                 flex-direction: column;
             }
+            /*
             .sidebar {
                 width: 100%;
                 border-right: none;
@@ -332,8 +333,19 @@
                 justify-content: center;
                 gap: 20px;
             }
+            */
+            .sidebar {
+                display: none;
+            }
+            .sidebar-header {
+                display: none;
+            }
+
             .home-grid {
                 grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
+            .sidebar footer {
+                display: none; /* Masque le footer uniquement sur mobile */
             }
         }
     </style>
