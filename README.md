@@ -6,7 +6,7 @@
 ## Chapitre 1 : Langages et programmation
 - [x] 1.1 - Algorithmes, programmation et langages
 - [x] 1.2 - Introduction au langage Python
-- [ ] 1.3 - Constructions élémentaires : variables, boucles, instructions conditionnelles
+- [x] 1.3 - Constructions élémentaires : variables, types, instructions conditionnelles et boucles
 - [ ] 1.4 - Les fonctions, spécification
 - [ ] 1.5 - Utilisation de bibliothèques
 - [ ] 1.6 - Tests et mise au point de programmes
