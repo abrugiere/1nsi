@@ -29,7 +29,7 @@
 ## Interactions entre l’homme et la machine sur le Web
 - [ ] 4.1 - Interaction entre l’homme et la machine, événements
 - [ ] 4.2 - Interaction avec l’utilisateur dans une page Web
-- [ ] 4.3 - Interaction client-serveur. Requêtes HTTP, réponses du serveur
+- [ ] 4.3 - Interaction client-serveur, requêtes HTTP, réponses du serveur
 - [ ] 4.4 - Formulaire d’une page Web
 
 ## Traitement de données en tables
