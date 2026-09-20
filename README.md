@@ -17,7 +17,7 @@
 - [ ] 2.1 - Écriture d’un entier positif dans une base b ⩾ 2
 - [ ] 2.2 - Expressions booléennes
 - [ ] 2.3 - Représentation binaire d’un entier relatif
-- [ ] 2.4 - Représentation approximative des nombres réels : notion de nombre flottant
+- [ ] 2.4 - Représentation approximative des nombres réels
 - [ ] 2.5 - Représentation d’un texte en machine
 
 ## Types construits
@@ -27,7 +27,7 @@
 - [ ] 3.4 - Dictionnaires par clés et valeurs
 
 ## Interactions entre l’homme et la machine sur le Web
-- [ ] 4.1 - Modalités de l’interaction entre l’homme et la machine. Événements
+- [ ] 4.1 - Interaction entre l’homme et la machine, événements
 - [ ] 4.2 - Interaction avec l’utilisateur dans une page Web
 - [ ] 4.3 - Interaction client-serveur. Requêtes HTTP, réponses du serveur
 - [ ] 4.4 - Formulaire d’une page Web
