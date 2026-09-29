@@ -8,7 +8,7 @@
 - [x] 1.2 - Introduction au langage Python
 - [x] 1.3 - Constructions élémentaires
 - [x] 1.4 - Les fonctions
-- [ ] 1.5 - Spécifications, tests et mise au point de programmes
+- [x] 1.5 - Spécifications, tests et mise au point de programmes
 - [ ] 1.6 - Utilisation de bibliothèques
 - [ ] 1.7 - Interfaces graphiques : le module Tkinter
 - [ ] 1.8 - Diversité et unité des langages de programmation
