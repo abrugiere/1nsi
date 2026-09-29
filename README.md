@@ -7,7 +7,7 @@
 - [x] 1.1 - Algorithmes, programmation et langages
 - [x] 1.2 - Introduction au langage Python
 - [x] 1.3 - Constructions élémentaires
-- [ ] 1.4 - Les fonctions
+- [x] 1.4 - Les fonctions
 - [ ] 1.5 - Utilisation de bibliothèques
 - [ ] 1.6 - Spécifications, tests et mise au point de programmes
 - [ ] 1.7 - Interfaces graphiques : le module Tkinter
