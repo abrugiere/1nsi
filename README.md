@@ -14,7 +14,7 @@
 - [ ] 1.8 - Diversité et unité des langages de programmation
 
 ## Représentation des données
-- [ ] 2.1 - Écriture d’un entier positif dans une base b ⩾ 2
+- [x] 2.1 - Écriture d’un entier positif dans une base b ⩾ 2
 - [ ] 2.2 - Expressions booléennes
 - [ ] 2.3 - Représentation binaire d’un entier relatif
 - [ ] 2.4 - Représentation approximative des nombres réels
